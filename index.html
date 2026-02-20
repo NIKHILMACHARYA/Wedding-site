@@ -150,20 +150,6 @@
 
 <body class="bg-royal-900 text-cream overflow-x-hidden selection:bg-gold-500 selection:text-royal-900">
 
-    <!-- Audio Player -->
-    <audio id="weddingMusic" loop>
-        <source
-            src="Kudmayi-(Film-Version)(PaglaSongs).mp3"
-            type="audio/ogg">
-    </audio>
-
-    <div id="musicControl" class="fixed bottom-6 right-6 z-50 cursor-pointer hidden">
-        <div
-            class="w-12 h-12 rounded-full bg-gold-500 flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300 animate-pulse">
-            <i id="musicIcon" class="fas fa-music text-royal-900"></i>
-        </div>
-    </div>
-
     <!-- ==================== CINEMATIC CURTAIN ENTRY ==================== -->
     <div id="curtainLayer" class="fixed inset-0 z-[100] flex curtain-container overflow-hidden pointer-events-auto">
 
@@ -411,11 +397,11 @@
         <!-- Family & Venue Section (Grid) -->
         <section class="py-24 bg-cream text-royal-900">
             <div class="container mx-auto px-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
 
                     <!-- Family -->
-                    <div class="venue-card opacity-0 transform translate-y-10">
-                        <div class="text-center border-4 border-double border-gold-500 p-10 h-full relative">
+                    <div class="venue-card opacity-0 transform translate-y-10 h-full">
+                        <div class="text-center border-4 border-double border-gold-500 p-10 h-full relative flex flex-col justify-center">
                             <div class="absolute top-0 left-0 text-gold-500 text-4xl -mt-6 -ml-4"><i
                                     class="fas fa-crown"></i></div>
                             <h2 class="font-serif text-3xl mb-8">Blessings From</h2>
@@ -437,17 +423,17 @@
                     </div>
 
                     <!-- Venue Map -->
-                    <div class="venue-card opacity-0 transform translate-y-10 delay-200">
-                        <div class="h-full bg-white shadow-xl p-4 border border-gold-200 rounded-lg">
+                    <div class="venue-card opacity-0 transform translate-y-10 h-full">
+                        <div class="h-full bg-white shadow-xl p-4 border border-gold-200 rounded-lg flex flex-col">
                             <h2 class="font-serif text-2xl text-center mb-4 text-royal-900">The Royal Venue</h2>
                             <!-- Venue Image -->
-                            <div class="w-full bg-gray-200 mb-4 relative group rounded">
+                            <div class="w-full bg-gray-200 mb-4 relative group rounded flex-1 overflow-hidden">
                                 <img src="img/Screenshot 2026-02-20 120133.png"
-                                    class="w-full h-auto object-contain rounded"
+                                    class="w-full h-full object-cover rounded"
                                     alt="Venue Location">
                             </div>
 
-                            <div class="text-center">
+                            <div class="text-center mt-auto">
                                 <p class="font-serif text-lg mb-4">Glucklich Beach Venue, Kundapura</p>
                                 <a href="https://www.google.com/maps/place/Glucklich+Beach+Venue/@13.5728059,74.6767277,17z/data=!4m14!1m7!3m6!1s0x3bbc9300423248e9:0x80b417c1daeeb066!2sGlucklich+Beach+Venue!8m2!3d13.572805!4d74.678916!16s%2Fg%2F11lzkc412l!3m5!1s0x3bbc9300423248e9:0x80b417c1daeeb066!8m2!3d13.572805!4d74.678916!16s%2Fg%2F11lzkc412l?entry=ttu&g_ep=EgoyMDI2MDIxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank"
                                     class="inline-block bg-royal-900 text-gold-500 px-6 py-2 rounded-full hover:bg-gold-500 hover:text-royal-900 transition-colors uppercase text-sm tracking-wider font-bold">
@@ -541,10 +527,6 @@
         const openBtn = document.getElementById('openBtn');
         const curtainLayer = document.getElementById('curtainLayer');
         const mainContent = document.getElementById('mainContent');
-        const audio = document.getElementById('weddingMusic');
-        const musicControl = document.getElementById('musicControl');
-        const musicIcon = document.getElementById('musicIcon');
-        let isPlaying = false;
 
         // Intro Animation for Button
         gsap.to(".entry-text", {
@@ -558,13 +540,6 @@
 
         // Open Interaction
         openBtn.addEventListener('click', () => {
-            // 1. Play Music
-            audio.volume = 0.5;
-            audio.play().then(() => {
-                isPlaying = true;
-                musicControl.classList.remove('hidden');
-            }).catch(e => console.log("Audio play failed", e));
-
             // GSAP Timeline for Realistic Opening
             const openTl = gsap.timeline({
                 onComplete: () => {
@@ -612,22 +587,6 @@
             createParticles();
             createPetals();
             runHeroAnimations();
-        });
-
-        // Music Toggle
-        musicControl.addEventListener('click', () => {
-            if (isPlaying) {
-                audio.pause();
-                musicIcon.classList.remove('fa-music');
-                musicIcon.classList.add('fa-volume-mute');
-                musicControl.classList.remove('animate-pulse');
-            } else {
-                audio.play();
-                musicIcon.classList.add('fa-music');
-                musicIcon.classList.remove('fa-volume-mute');
-                musicControl.classList.add('animate-pulse');
-            }
-            isPlaying = !isPlaying;
         });
 
         // --- SCROLL ANIMATIONS ---
@@ -713,24 +672,7 @@
             });
         });
 
-        const form = document.getElementById('rsvpForm');
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            gsap.to(form, {
-                opacity: 0,
-                y: -20,
-                duration: 0.5,
-                onComplete: () => {
-                    form.style.display = 'none';
-                    const success = document.getElementById('rsvpSuccess');
-                    success.classList.remove('hidden');
-                    gsap.fromTo(".success-icon",
-                        { scale: 0, rotation: -180 },
-                        { scale: 1, rotation: 0, duration: 0.8, ease: "elastic.out(1, 0.5)" }
-                    );
-                }
-            });
-        });
+
 
     </script>
 </body>
